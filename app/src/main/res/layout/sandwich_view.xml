@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/burgerView"
+    android:id="@+id/sandwichView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -252,7 +252,7 @@
         app:layout_constraintVertical_bias="0.394" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/addToOrderButton"
         android:layout_width="160dp"
         android:layout_height="64dp"
         android:text="@string/addToOrder"
@@ -290,20 +290,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/addToOrderButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.965">
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/itemPriceTag" />
 
         <TextView
-            android:id="@+id/itemPriceHolderTV"
+            android:id="@+id/salesTaxHolderTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
