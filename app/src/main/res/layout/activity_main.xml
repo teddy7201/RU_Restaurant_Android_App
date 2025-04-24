@@ -5,15 +5,96 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="-31dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <ImageButton
+        android:id="@+id/currentOrderImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/currentOrder"
+        android:scaleType="fitCenter"
+        android:src="@drawable/shoppingcarticon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/completedOrdersImageButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bevImageButton" />
+
+    <ImageButton
+        android:id="@+id/completedOrdersImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="68dp"
+        android:contentDescription="@string/completedOrders"
+        android:scaleType="fitCenter"
+        android:src="@drawable/completedorders"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sideImageButton"
+        app:layout_constraintVertical_bias="0.49" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="305dp"
+        android:layout_height="241dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ru_burger_4_23_2025" />
+
+    <ImageButton
+        android:id="@+id/burgerImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="268dp"
+        android:contentDescription="@string/burger"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ses_your_best_grilled_burger_recipe_7511041_hero_c_c5080fa5f97c4c2b908968527f8a851b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/sandwichImageButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/sandwichImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="268dp"
+        android:contentDescription="@string/sandwich"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ham_sandwich_011_1_49227336bc074513aaf8fdbde440eafe"
+        app:layout_constraintEnd_toStartOf="@+id/burgerImageButton"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/sideImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/sides"
+        android:scaleType="fitCenter"
+        android:src="@drawable/sidespic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/bevImageButton"
+        app:layout_constraintTop_toBottomOf="@+id/burgerImageButton"
+        app:layout_constraintVertical_bias="0.216" />
+
+    <ImageButton
+        android:id="@+id/bevImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/beverages"
+        android:scaleType="fitCenter"
+        android:src="@drawable/colddrinks"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sideImageButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sandwichImageButton"
+        app:layout_constraintVertical_bias="0.216" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
