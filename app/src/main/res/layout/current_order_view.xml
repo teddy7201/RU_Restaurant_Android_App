@@ -34,6 +34,8 @@
         android:id="@+id/currentOrderItemsList"
         android:layout_width="349dp"
         android:layout_height="319dp"
+        android:choiceMode="singleChoice"
+        android:listSelector="@android:color/holo_blue_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
