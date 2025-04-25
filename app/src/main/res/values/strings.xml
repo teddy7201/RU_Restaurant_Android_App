@@ -55,4 +55,9 @@
     <string name="currentOrderDetails">Current Order Details</string>
     <string name="mainMenu">Main Menu</string>
     <string name="selectedOrderNumber">Select Order Number:</string>
+    <string name="burgerCombo">Burger Combo</string>
+    <string name="sandwichCombo">Sandwich Combo</string>
+    <string name="itemPrice">Item Price:</string>
+    <string name="comboPrice">Combo Price:</string>
+    <string name="makeItACombo">Make It A Combo</string>
 </resources>
