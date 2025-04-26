@@ -10,9 +10,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.software_meth_project_5.Model.BurgerCombo;
+import com.example.software_meth_project_5.Model.Beverage;
+import com.example.software_meth_project_5.Model.Combo;
+import com.example.software_meth_project_5.Model.Flavor;
 import com.example.software_meth_project_5.Model.OrderManager;
 import com.example.software_meth_project_5.Model.Sandwich;
+import com.example.software_meth_project_5.Model.Side;
+import com.example.software_meth_project_5.Model.SideType;
+import com.example.software_meth_project_5.Model.Size;
 
 public class SandwichComboActivity extends AppCompatActivity {
     private Spinner sidesSpinner;
@@ -103,8 +108,15 @@ public class SandwichComboActivity extends AppCompatActivity {
 
             // Create temporary combo to calculate combo price
             String selectedSide = sidesSpinner.getSelectedItem().toString();
-            String selectedBeverage = beveragesSpinner.getSelectedItem().toString();
-            BurgerCombo combo = new BurgerCombo(sandwich, selectedSide, selectedBeverage);
+            Flavor selectedFlavor = getBeverageFlavor(beveragesSpinner.getSelectedItem().toString());
+
+            // Create side with MEDIUM size
+            SideType sideType = getSideType(selectedSide);
+            Side side = new Side(Size.MEDIUM, sideType, sandwich.getQuantity());
+
+            // Create beverage with MEDIUM size
+            Beverage beverage = new Beverage(Size.MEDIUM, selectedFlavor, sandwich.getQuantity());
+            Combo combo = new Combo(sandwich, beverage, side, sandwich.getQuantity());
 
             // Update combo price
             double comboPrice = combo.price();
@@ -115,9 +127,15 @@ public class SandwichComboActivity extends AppCompatActivity {
     private void setupAddToOrderButton() {
         addToOrderButton.setOnClickListener(v -> {
             String selectedSide = sidesSpinner.getSelectedItem().toString();
-            String selectedBeverage = beveragesSpinner.getSelectedItem().toString();
+            Flavor selectedFlavor = getBeverageFlavor(beveragesSpinner.getSelectedItem().toString());
 
-            BurgerCombo combo = new BurgerCombo(sandwich, selectedSide, selectedBeverage);
+            // Create side with MEDIUM size
+            SideType sideType = getSideType(selectedSide);
+            Side side = new Side(Size.MEDIUM, sideType, sandwich.getQuantity());
+
+            // Create beverage with MEDIUM size
+            Beverage beverage = new Beverage(Size.MEDIUM, selectedFlavor, sandwich.getQuantity());
+            Combo combo = new Combo(sandwich, beverage, side, sandwich.getQuantity());
             OrderManager.getInstance().addItemToOrder(combo);
 
             Toast.makeText(this, "Sandwich combo added to order", Toast.LENGTH_SHORT).show();
@@ -128,5 +146,37 @@ public class SandwichComboActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+    }
+
+    private Flavor getBeverageFlavor(String beverageName) {
+        switch (beverageName) {
+            case "Dr Pepper":
+                return Flavor.DR_PEPPER;
+            case "Sprite":
+                return Flavor.SPRITE;
+            case "Coca Cola":
+                return Flavor.COKE;
+            case "Fanta":
+                return Flavor.FANTA_ORANGE;
+            case "Water":
+                return Flavor.WATER;
+            default:
+                return Flavor.COKE; // Default to Coke if unknown
+        }
+    }
+
+    private SideType getSideType(String sideName) {
+        switch (sideName) {
+            case "French Fries":
+                return SideType.FRIES;
+            case "Onion Rings":
+                return SideType.ONION_RINGS;
+            case "Chips":
+                return SideType.CHIPS;
+            case "Apple Slices":
+                return SideType.APPLE_SLICES;
+            default:
+                throw new IllegalArgumentException("Unknown side type: " + sideName);
+        }
     }
 }
