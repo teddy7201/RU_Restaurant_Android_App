@@ -1,5 +1,8 @@
 package com.example.software_meth_project_5.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -7,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author Henry Rodriguez
  */
-public class Sandwich extends MenuItem {
+public class Sandwich extends MenuItem implements Parcelable {
     protected Bread bread;
     protected Protein protein;
     protected ArrayList<Addons> addOns;
@@ -27,6 +30,30 @@ public class Sandwich extends MenuItem {
         this.addOns = addOns;
         this.quantity = quantity;
     }
+
+    protected Sandwich(Parcel in) {
+        bread = Bread.valueOf(in.readString());
+        protein = Protein.valueOf(in.readString());
+        addOns = new ArrayList<>();
+        quantity = in.readInt();
+        ArrayList<String> addonStrings = new ArrayList<>();
+        in.readStringList(addonStrings);
+        for (String addon : addonStrings) {
+            addOns.add(Addons.valueOf(addon));
+        }
+    }
+
+    public static final Creator<Sandwich> CREATOR = new Creator<Sandwich>() {
+        @Override
+        public Sandwich createFromParcel(Parcel in) {
+            return new Sandwich(in);
+        }
+
+        @Override
+        public Sandwich[] newArray(int size) {
+            return new Sandwich[size];
+        }
+    };
 
     /**
      * Getter method for getting the bread of the sandwich.
@@ -100,4 +127,20 @@ public class Sandwich extends MenuItem {
                 protein.getProteinType(), addonNames, quantity);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(bread.name());
+        dest.writeString(protein.name());
+        dest.writeInt(quantity);
+        ArrayList<String> addonStrings = new ArrayList<>();
+        for (Addons addon : addOns) {
+            addonStrings.add(addon.name());
+        }
+        dest.writeStringList(addonStrings);
+    }
 }

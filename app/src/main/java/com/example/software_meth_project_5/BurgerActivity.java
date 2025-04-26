@@ -1,5 +1,6 @@
 package com.example.software_meth_project_5;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,6 +28,7 @@ public class BurgerActivity extends AppCompatActivity {
     private TextView quantityTextView;
     private TextView priceTextView;
     private Button addToOrderButton;
+    private Button makeItAComboButton;
 
     // Add-on checkboxes
     private CheckBox lettuceCheckBox;
@@ -51,6 +53,9 @@ public class BurgerActivity extends AppCompatActivity {
         // Setup add to order button
         setupAddToOrderButton();
 
+        // Setup make it a combo button
+        setupMakeItAComboButton();
+
         // Add listeners for price updates
         setupPriceUpdateListeners();
 
@@ -66,6 +71,7 @@ public class BurgerActivity extends AppCompatActivity {
         quantityTextView = findViewById(R.id.quantityValueTV);
         priceTextView = findViewById(R.id.salesTaxHolderTV);
         addToOrderButton = findViewById(R.id.addToOrderButton);
+        makeItAComboButton = findViewById(R.id.makeItAComboButton);
 
         // Initialize add-on checkboxes
         lettuceCheckBox = findViewById(R.id.lettuceCheckBox);
@@ -116,6 +122,19 @@ public class BurgerActivity extends AppCompatActivity {
             OrderManager.getInstance().addItemToOrder(burger);
             Toast.makeText(this, "Burger added to order", Toast.LENGTH_SHORT).show();
             finish();
+        });
+    }
+
+    private void setupMakeItAComboButton() {
+        makeItAComboButton.setOnClickListener(v -> {
+            if (!validateSelections()) {
+                return;
+            }
+
+            Burger burger = createBurger();
+            Intent intent = new Intent(BurgerActivity.this, BurgerComboActivity.class);
+            intent.putExtra("burger", burger);
+            startActivity(intent);
         });
     }
 

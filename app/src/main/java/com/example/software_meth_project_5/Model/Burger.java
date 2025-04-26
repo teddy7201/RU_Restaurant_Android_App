@@ -1,5 +1,8 @@
 package com.example.software_meth_project_5.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +11,7 @@ import java.util.ArrayList;
  * 
  * @author Henry Rodriguez
  */
-public class Burger extends Sandwich {
+public class Burger extends Sandwich implements Parcelable {
     private boolean doublePatty;
 
     /**
@@ -28,6 +31,31 @@ public class Burger extends Sandwich {
         super(bread, protein, addOns, quantity);
         this.doublePatty = doublePatty;
     }
+
+    protected Burger(Parcel in) {
+        super(Bread.valueOf(in.readString()),
+                Protein.valueOf(in.readString()),
+                new ArrayList<>(),
+                in.readInt());
+        doublePatty = in.readBoolean();
+        ArrayList<String> addonStrings = new ArrayList<>();
+        in.readStringList(addonStrings);
+        for (String addon : addonStrings) {
+            addOns.add(Addons.valueOf(addon));
+        }
+    }
+
+    public static final Creator<Burger> CREATOR = new Creator<Burger>() {
+        @Override
+        public Burger createFromParcel(Parcel in) {
+            return new Burger(in);
+        }
+
+        @Override
+        public Burger[] newArray(int size) {
+            return new Burger[size];
+        }
+    };
 
     /**
      * This method indicates if the burger has a double patty or not.
@@ -89,5 +117,23 @@ public class Burger extends Sandwich {
 
         return String.format("Burger\n Bread: %s Protein: %s Addons: %s Quantity: %d", bread.getBreadType(), pattySD,
                 addonNames, quantity);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(bread.name());
+        dest.writeString(protein.name());
+        dest.writeInt(quantity);
+        dest.writeBoolean(doublePatty);
+        ArrayList<String> addonStrings = new ArrayList<>();
+        for (Addons addon : addOns) {
+            addonStrings.add(addon.name());
+        }
+        dest.writeStringList(addonStrings);
     }
 }

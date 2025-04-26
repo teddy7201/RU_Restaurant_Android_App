@@ -28,6 +28,7 @@ public class SandwichActivity extends AppCompatActivity {
     private TextView quantityTextView;
     private TextView priceTextView;
     private Button addToOrderButton;
+    private Button makeItAComboButton;
 
     // Add-on checkboxes
     private CheckBox lettuceCheckBox;
@@ -52,6 +53,9 @@ public class SandwichActivity extends AppCompatActivity {
         // Setup add to order button
         setupAddToOrderButton();
 
+        // Setup make it a combo button
+        setupMakeItAComboButton();
+
         // Add listeners for price updates
         setupPriceUpdateListeners();
 
@@ -67,6 +71,7 @@ public class SandwichActivity extends AppCompatActivity {
         quantityTextView = findViewById(R.id.quantityValueTV);
         priceTextView = findViewById(R.id.salesTaxHolderTV);
         addToOrderButton = findViewById(R.id.addToOrderButton);
+        makeItAComboButton = findViewById(R.id.makeItAComboButton);
 
         // Initialize add-on checkboxes
         lettuceCheckBox = findViewById(R.id.lettuceCheckBox);
@@ -117,6 +122,19 @@ public class SandwichActivity extends AppCompatActivity {
             OrderManager.getInstance().addItemToOrder(sandwich);
             Toast.makeText(this, "Sandwich added to order", Toast.LENGTH_SHORT).show();
             finish();
+        });
+    }
+
+    private void setupMakeItAComboButton() {
+        makeItAComboButton.setOnClickListener(v -> {
+            if (!validateSelections()) {
+                return;
+            }
+
+            Sandwich sandwich = createSandwich();
+            Intent intent = new Intent(SandwichActivity.this, SandwichComboActivity.class);
+            intent.putExtra("sandwich", sandwich);
+            startActivity(intent);
         });
     }
 

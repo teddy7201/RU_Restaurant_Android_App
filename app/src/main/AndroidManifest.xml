@@ -39,6 +39,12 @@
         <activity
             android:name=".BurgerActivity"
             android:exported="false" />
+        <activity
+            android:name=".BurgerComboActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SandwichComboActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
