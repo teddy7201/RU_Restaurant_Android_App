@@ -111,6 +111,10 @@ public class CurrentOrderActivity extends AppCompatActivity {
     }
 
     private void cancelOrder() {
+        if(OrderManager.getInstance().getCurrentOrder().getItems().isEmpty()){
+            Toast.makeText(this, "Order is empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
         OrderManager.getInstance().startNewOrder();
         updateOrderDisplay();
         Toast.makeText(this, "Order cancelled", Toast.LENGTH_SHORT).show();
