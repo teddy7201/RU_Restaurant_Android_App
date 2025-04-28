@@ -25,12 +25,10 @@ public class AllOrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_orders_view);
 
-        // Initialize views
         orderItemsList = findViewById(R.id.currentOrderItemsList);
         orderNumberSpinner = findViewById(R.id.orderNumberSpinner);
         mainMenuButton = findViewById(R.id.mainMenuButton);
 
-        // Set up adapters
         listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         orderItemsList.setAdapter(listAdapter);
 
@@ -38,10 +36,8 @@ public class AllOrdersActivity extends AppCompatActivity {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         orderNumberSpinner.setAdapter(spinnerAdapter);
 
-        // Set up button listener
         mainMenuButton.setOnClickListener(v -> goHome());
 
-        // Set up spinner listener
         orderNumberSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
@@ -55,7 +51,6 @@ public class AllOrdersActivity extends AppCompatActivity {
             }
         });
 
-        // Load order numbers into spinner
         loadOrderNumbers();
     }
 

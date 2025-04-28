@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.software_meth_project_5.Model.Addons;
@@ -43,23 +44,11 @@ public class SandwichActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sandwich_view);
-
-        // Initialize views
         initializeViews();
-
-        // Setup quantity buttons
         setupQuantityButtons();
-
-        // Setup add to order button
         setupAddToOrderButton();
-
-        // Setup make it a combo button
         setupMakeItAComboButton();
-
-        // Add listeners for price updates
         setupPriceUpdateListeners();
-
-        // Update initial price
         updatePrice();
     }
 
@@ -73,7 +62,6 @@ public class SandwichActivity extends AppCompatActivity {
         addToOrderButton = findViewById(R.id.addToOrderButton);
         makeItAComboButton = findViewById(R.id.makeItAComboButton);
 
-        // Initialize add-on checkboxes
         lettuceCheckBox = findViewById(R.id.lettuceCheckBox);
         tomatoCheckBox = findViewById(R.id.tomatoCheckBox);
         onionCheckBox = findViewById(R.id.onionCheckBox);
@@ -98,13 +86,10 @@ public class SandwichActivity extends AppCompatActivity {
     }
 
     private void setupPriceUpdateListeners() {
-        // Add listeners for bread selection
         breadRadioGroup.setOnCheckedChangeListener((group, checkedId) -> updatePrice());
 
-        // Add listeners for protein selection
         pattyRadioGroup.setOnCheckedChangeListener((group, checkedId) -> updatePrice());
 
-        // Add listeners for add-ons
         lettuceCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> updatePrice());
         tomatoCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> updatePrice());
         onionCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> updatePrice());
@@ -115,6 +100,7 @@ public class SandwichActivity extends AppCompatActivity {
     private void setupAddToOrderButton() {
         addToOrderButton.setOnClickListener(v -> {
             if (!validateSelections()) {
+                showMissingSelectionsDialog();
                 return;
             }
 
@@ -128,6 +114,7 @@ public class SandwichActivity extends AppCompatActivity {
     private void setupMakeItAComboButton() {
         makeItAComboButton.setOnClickListener(v -> {
             if (!validateSelections()) {
+                showMissingSelectionsDialog();
                 return;
             }
 
@@ -138,17 +125,19 @@ public class SandwichActivity extends AppCompatActivity {
         });
     }
 
+    private void showMissingSelectionsDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Missing Data for Order")
+                .setMessage("Please make select a protein and bread")
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
     private boolean validateSelections() {
-        if (breadRadioGroup.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(this, "Please select a bread type", Toast.LENGTH_SHORT).show();
+        if(pattyRadioGroup.getCheckedRadioButtonId() == -1 || breadRadioGroup.getCheckedRadioButtonId() == -1){
             return false;
         }
-
-        if (pattyRadioGroup.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(this, "Please select a protein", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
         return true;
     }
 

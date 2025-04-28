@@ -32,7 +32,6 @@ public class SandwichComboActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sandwich_combo_view);
 
-        // Get sandwich from intent
         sandwich = getIntent().getParcelableExtra("sandwich");
         if (sandwich == null) {
             Toast.makeText(this, "Error: No sandwich details found", Toast.LENGTH_SHORT).show();
@@ -40,16 +39,12 @@ public class SandwichComboActivity extends AppCompatActivity {
             return;
         }
 
-        // Initialize views
         initializeViews();
 
-        // Setup spinners
         setupSpinners();
 
-        // Setup add to order button
         setupAddToOrderButton();
 
-        // Update prices
         updatePrices();
     }
 
@@ -62,19 +57,16 @@ public class SandwichComboActivity extends AppCompatActivity {
     }
 
     private void setupSpinners() {
-        // Setup sides spinner
         ArrayAdapter<CharSequence> sidesAdapter = ArrayAdapter.createFromResource(this,
                 R.array.sides_array, android.R.layout.simple_spinner_item);
         sidesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sidesSpinner.setAdapter(sidesAdapter);
 
-        // Setup beverages spinner
         ArrayAdapter<CharSequence> beveragesAdapter = ArrayAdapter.createFromResource(this,
                 R.array.beverages_array, android.R.layout.simple_spinner_item);
         beveragesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         beveragesSpinner.setAdapter(beveragesAdapter);
 
-        // Add listeners for price updates
         sidesSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position,
@@ -102,23 +94,18 @@ public class SandwichComboActivity extends AppCompatActivity {
 
     private void updatePrices() {
         if (sandwich != null) {
-            // Update item price
             double itemPrice = sandwich.price();
             itemPriceTextView.setText(String.format("$%.2f", itemPrice));
 
-            // Create temporary combo to calculate combo price
             String selectedSide = sidesSpinner.getSelectedItem().toString();
             Flavor selectedFlavor = getBeverageFlavor(beveragesSpinner.getSelectedItem().toString());
 
-            // Create side with MEDIUM size
             SideType sideType = getSideType(selectedSide);
             Side side = new Side(Size.MEDIUM, sideType, sandwich.getQuantity());
 
-            // Create beverage with MEDIUM size
             Beverage beverage = new Beverage(Size.MEDIUM, selectedFlavor, sandwich.getQuantity());
             Combo combo = new Combo(sandwich, beverage, side, sandwich.getQuantity());
 
-            // Update combo price
             double comboPrice = combo.price();
             comboPriceTextView.setText(String.format("$%.2f", comboPrice));
         }
@@ -129,18 +116,15 @@ public class SandwichComboActivity extends AppCompatActivity {
             String selectedSide = sidesSpinner.getSelectedItem().toString();
             Flavor selectedFlavor = getBeverageFlavor(beveragesSpinner.getSelectedItem().toString());
 
-            // Create side with MEDIUM size
             SideType sideType = getSideType(selectedSide);
             Side side = new Side(Size.MEDIUM, sideType, sandwich.getQuantity());
 
-            // Create beverage with MEDIUM size
             Beverage beverage = new Beverage(Size.MEDIUM, selectedFlavor, sandwich.getQuantity());
             Combo combo = new Combo(sandwich, beverage, side, sandwich.getQuantity());
             OrderManager.getInstance().addItemToOrder(combo);
 
             Toast.makeText(this, "Sandwich combo added to order", Toast.LENGTH_SHORT).show();
 
-            // Create intent to return to MainActivity
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -150,18 +134,16 @@ public class SandwichComboActivity extends AppCompatActivity {
 
     private Flavor getBeverageFlavor(String beverageName) {
         switch (beverageName) {
-            case "Dr Pepper":
-                return Flavor.DR_PEPPER;
-            case "Sprite":
-                return Flavor.SPRITE;
-            case "Coca Cola":
+            case "Coke":
                 return Flavor.COKE;
-            case "Fanta":
-                return Flavor.FANTA_ORANGE;
+            case "Iced Tea":
+                return Flavor.ICED_TEA;
+            case "Apple Juice":
+                return Flavor.APPLE_JUICE;
             case "Water":
                 return Flavor.WATER;
             default:
-                return Flavor.COKE; // Default to Coke if unknown
+                return Flavor.COKE;
         }
     }
 
@@ -169,8 +151,6 @@ public class SandwichComboActivity extends AppCompatActivity {
         switch (sideName) {
             case "French Fries":
                 return SideType.FRIES;
-            case "Onion Rings":
-                return SideType.ONION_RINGS;
             case "Chips":
                 return SideType.CHIPS;
             case "Apple Slices":

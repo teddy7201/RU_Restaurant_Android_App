@@ -1,14 +1,13 @@
 package com.example.software_meth_project_5;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.software_meth_project_5.Model.OrderManager;
@@ -31,7 +30,6 @@ public class SideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.side_view);
 
-        // Initialize views
         sizeRadioGroup = findViewById(R.id.sizeRadioGroup);
         sideTypeRadioGroup = findViewById(R.id.sideTypeRadioGroup);
         plusButton = findViewById(R.id.plusImageButton);
@@ -40,10 +38,8 @@ public class SideActivity extends AppCompatActivity {
         priceTextView = findViewById(R.id.salesTaxHolderTV);
         addToOrderButton = findViewById(R.id.addToOrderButton);
 
-        // Set initial quantity
         quantityTextView.setText(String.valueOf(quantity));
 
-        // Set up button listeners
         plusButton.setOnClickListener(v -> {
             quantity++;
             quantityTextView.setText(String.valueOf(quantity));
@@ -58,11 +54,9 @@ public class SideActivity extends AppCompatActivity {
             }
         });
 
-        // Set up radio group listeners
         sizeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> updatePrice());
         sideTypeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> updatePrice());
 
-        // Set up add to order button
         addToOrderButton.setOnClickListener(v -> addToOrder());
     }
 
@@ -74,7 +68,6 @@ public class SideActivity extends AppCompatActivity {
     }
 
     private Side createSide() {
-        // Get selected size
         Size size = Size.SMALL;
         int selectedSizeId = sizeRadioGroup.getCheckedRadioButtonId();
         if (selectedSizeId == R.id.sizeMediumRadioButton) {
@@ -83,7 +76,6 @@ public class SideActivity extends AppCompatActivity {
             size = Size.LARGE;
         }
 
-        // Get selected side type
         SideType type = null;
         int selectedTypeId = sideTypeRadioGroup.getCheckedRadioButtonId();
         if (selectedTypeId == R.id.radioButton2) {
@@ -104,13 +96,30 @@ public class SideActivity extends AppCompatActivity {
     }
 
     private void addToOrder() {
-        Side side = createSide();
-        if (side != null) {
-            OrderManager.getInstance().addItemToOrder(side);
-            Toast.makeText(this, "Side added to order", Toast.LENGTH_SHORT).show();
-            finish();
-        } else {
-            Toast.makeText(this, "Please select a side type", Toast.LENGTH_SHORT).show();
+        if(!validateSelections()){
+            showMissingSelectionsDialog();
+            return;
         }
+
+        Side side = createSide();
+        OrderManager.getInstance().addItemToOrder(side);
+        Toast.makeText(this, "Side added to order", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void showMissingSelectionsDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Missing Data for Order")
+                .setMessage("Please make select a side type and size")
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
+    private boolean validateSelections() {
+        if(sizeRadioGroup.getCheckedRadioButtonId() == -1 || sideTypeRadioGroup.getCheckedRadioButtonId() == -1){
+            return false;
+        }
+        return true;
     }
 }

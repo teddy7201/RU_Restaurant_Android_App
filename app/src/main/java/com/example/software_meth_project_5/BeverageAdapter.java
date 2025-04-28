@@ -41,7 +41,6 @@ public class BeverageAdapter extends RecyclerView.Adapter<BeverageAdapter.Bevera
         Flavor flavor = flavors.get(position);
         holder.flavorName.setText(flavor.getFlavorName());
 
-        // Highlight selected flavor
         if (flavor.equals(selectedFlavor)) {
             holder.itemView
                     .setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.selected_item));

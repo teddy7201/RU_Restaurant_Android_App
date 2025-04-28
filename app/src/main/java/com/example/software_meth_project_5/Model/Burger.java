@@ -81,7 +81,7 @@ public class Burger extends Sandwich implements Parcelable {
         }
 
         if (addOns.isEmpty()) {
-            return price;
+            return price * quantity;
         } else {
             for (Addons addon : addOns) {
                 price += addon.getPrice();

@@ -2,15 +2,14 @@
 <resources>
     <string-array name="sides_array">
         <item>French Fries</item>
-        <item>Onion Rings</item>
-        <item>Sweet Potato Fries</item>
+        <item>Apple Slices</item>
+        <item>Chips</item>
     </string-array>
 
     <string-array name="beverages_array">
-        <item>Coca Cola</item>
-        <item>Sprite</item>
-        <item>Fanta</item>
-        <item>Dr Pepper</item>
+        <item>Coke</item>
+        <item>Iced Tea</item>
+        <item>Apple Juice</item>
         <item>Water</item>
     </string-array>
 </resources> 

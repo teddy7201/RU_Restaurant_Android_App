@@ -28,43 +28,31 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        // Initialize burger button and set click listener
         burgerIB = findViewById(R.id.burgerImageButton);
         burgerIB.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, BurgerActivity.class);
             startActivity(intent);
         });
-
-        // Initialize sandwich button and set click listener
         burgerIB = findViewById(R.id.sandwichImageButton);
         burgerIB.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SandwichActivity.class);
             startActivity(intent);
         });
-
-        // Initialize side button and set click listener
         sideIB = findViewById(R.id.sideImageButton);
         sideIB.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SideActivity.class);
             startActivity(intent);
         });
-
-        // Initialize current order button and set click listener
         currentOrderIB = findViewById(R.id.currentOrderImageButton);
         currentOrderIB.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CurrentOrderActivity.class);
             startActivity(intent);
         });
-
-        // Initialize completed orders button and set click listener
         completedOrdersIB = findViewById(R.id.completedOrdersImageButton);
         completedOrdersIB.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AllOrdersActivity.class);
             startActivity(intent);
         });
-
-        // Initialize beverage button and set click listener
         beverageIB = findViewById(R.id.bevImageButton);
         beverageIB.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, BeverageActivity.class);

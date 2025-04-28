@@ -2,14 +2,13 @@ package com.example.software_meth_project_5;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +40,6 @@ public class BeverageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.beverage_view);
 
-        // Initialize views
         beverageRecyclerView = findViewById(R.id.beverageRecyclerView);
         sizeRadioGroup = findViewById(R.id.sizeRadioGroup);
         plusButton = findViewById(R.id.plusImageButton);
@@ -50,19 +48,14 @@ public class BeverageActivity extends AppCompatActivity {
         priceTextView = findViewById(R.id.salesTaxHolderTV);
         addToOrderButton = findViewById(R.id.addToOrderButton);
 
-        // Setup RecyclerView
         setupRecyclerView();
 
-        // Setup quantity buttons
         setupQuantityButtons();
 
-        // Setup size selection
         setupSizeSelection();
 
-        // Setup add to order button
         setupAddToOrderButton();
 
-        // Update initial price
         updatePrice();
     }
 
@@ -107,8 +100,8 @@ public class BeverageActivity extends AppCompatActivity {
 
     private void setupAddToOrderButton() {
         addToOrderButton.setOnClickListener(v -> {
-            if (selectedFlavor == null) {
-                Toast.makeText(this, "Please select a flavor", Toast.LENGTH_SHORT).show();
+            if (!validateSelections()) {
+                showMissingSelectionsDialog();
                 return;
             }
 
@@ -117,6 +110,22 @@ public class BeverageActivity extends AppCompatActivity {
             Toast.makeText(this, "Beverage added to order", Toast.LENGTH_SHORT).show();
             goHome();
         });
+    }
+
+    private void showMissingSelectionsDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Missing Data for Order")
+                .setMessage("Please make select a flavor and size")
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
+    private boolean validateSelections() {
+        if(selectedFlavor == null || sizeRadioGroup.getCheckedRadioButtonId() == -1){
+            return false;
+        }
+        return true;
     }
 
     private void updatePrice() {

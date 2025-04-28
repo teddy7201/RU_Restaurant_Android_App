@@ -102,8 +102,7 @@ public class Combo extends MenuItem {
         description.append("\n");
 
         // Add beverage details
-        description.append(" - Drink: ").append(beverage.getFlavor()).append(" (")
-                .append(beverage.getSize().getSizeName()).append(")\n");
+        description.append(" - Drink: ").append(beverage.getFlavor()).append(" (").append(beverage.getSize().getSizeName()).append(")\n");
 
         // Add side details
         description.append(" - Side: ").append(side.toString().split("\n")[0]);

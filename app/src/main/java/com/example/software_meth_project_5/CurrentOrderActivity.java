@@ -26,13 +26,13 @@ public class CurrentOrderActivity extends AppCompatActivity {
     private Button goHomeButton;
     private ArrayAdapter<String> adapter;
     private int selectedPosition = ListView.INVALID_POSITION;
+    private TextView orderNumberHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.current_order_view);
 
-        // Initialize views
         orderItemsList = findViewById(R.id.currentOrderItemsList);
         subtotalTV = findViewById(R.id.orderTotalHolderTV);
         salesTaxTV = findViewById(R.id.salesTaxHolderTV);
@@ -41,33 +41,28 @@ public class CurrentOrderActivity extends AppCompatActivity {
         cancelOrderButton = findViewById(R.id.cancelOrderButton);
         removeSelectedItemButton = findViewById(R.id.removeSelectedItemButton);
         goHomeButton = findViewById(R.id.goHomeButton);
+        orderNumberHolder = findViewById(R.id.orderNumberHolderTV);
 
-        // Set up list adapter with a selectable layout
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, new ArrayList<>());
         orderItemsList.setAdapter(adapter);
         orderItemsList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        // Set up item selection listener
         orderItemsList.setOnItemClickListener((parent, view, position, id) -> {
             selectedPosition = position;
             removeSelectedItemButton.setEnabled(true);
         });
 
-        // Set up button listeners
         placeOrderButton.setOnClickListener(v -> placeOrder());
         cancelOrderButton.setOnClickListener(v -> cancelOrder());
         removeSelectedItemButton.setOnClickListener(v -> removeSelectedItem());
         goHomeButton.setOnClickListener(v -> goHome());
 
-        // Initially disable remove button
         removeSelectedItemButton.setEnabled(false);
 
-        // Update the order display
         updateOrderDisplay();
     }
 
     private void updateOrderDisplay() {
-        // Clear and update the list
         adapter.clear();
         ArrayList<MenuItem> items = OrderManager.getInstance().getCurrentOrder().getItems();
         for (MenuItem item : items) {
@@ -75,12 +70,12 @@ public class CurrentOrderActivity extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
 
-        // Reset selection state
         selectedPosition = ListView.INVALID_POSITION;
         removeSelectedItemButton.setEnabled(false);
         orderItemsList.clearChoices();
 
-        // Update totals
+        orderNumberHolder.setText(String.format("%d", OrderManager.getInstance().getCurrentOrder().getNumber()));
+
         double subtotal = calculateSubtotal();
         double tax = calculateTax(subtotal);
         double total = subtotal + tax;
@@ -99,7 +94,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
     }
 
     private double calculateTax(double subtotal) {
-        return subtotal * 0.06625; // 6.625% tax rate
+        return subtotal * 0.06625;
     }
 
     private void placeOrder() {
